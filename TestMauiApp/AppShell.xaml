@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="TestMauiApp.AppShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:TestMauiApp"
+    xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+    xmlns:views="clr-namespace:TestMauiApp.Views"
+    Shell.FlyoutBehavior="Disabled"
+    Title="TestMauiApp"
+
+    BackgroundColor="{DynamicResource Primary}">
+    <Shell.Behaviors>
+        <toolkit:StatusBarBehavior x:Name="stausbars" StatusBarColor="{DynamicResource Primary}" StatusBarStyle="LightContent"/>
+    </Shell.Behaviors>
+    <FlyoutItem Title="Configuracion">
+        <Tab Title="Prospectos"  Icon="prospect">
+            <ShellContent
+                Title="Prospectos"
+                ContentTemplate="{DataTemplate views:ProspectListPage}"
+                Route="ProspectListPage" />
+        </Tab>
+        <Tab Title="Mi Perfil"  Icon="profile_icon">
+            <ShellContent
+                Title="Perfil"
+                ContentTemplate="{DataTemplate views:ProfilePage}"
+                Route="ProfilePage" />
+        </Tab>
+    </FlyoutItem>
+
+</Shell>
+

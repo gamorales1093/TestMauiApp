@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TestMauiApp.Views.ActivityListPage"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:model="clr-namespace:TestMauiApp.Models"
+             Title="ActivityListPage">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior  x:Name="stausbars" StatusBarColor="{DynamicResource Primary }" StatusBarStyle="LightContent"/>
+    </ContentPage.Behaviors>
+    <Shell.TitleView>
+        <Grid>
+            <Label  Text="Actividades" TextColor="White" FontSize="20" FontAttributes="Bold" BackgroundColor="Transparent" HorizontalOptions="StartAndExpand" VerticalOptions="CenterAndExpand" />
+        </Grid>
+    </Shell.TitleView>
+    <Grid RowSpacing="5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+
+        <ScrollView Grid.Row="1">
+            <CollectionView SelectionMode="None" x:Name="ItemList"  ItemsSource="{Binding Activities}" HorizontalOptions="FillAndExpand" Margin="10,10"
+                                >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Activity">
+
+                        <Border Margin="15,15,15,1" Padding="10,15,15,15" HorizontalOptions="FillAndExpand">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Normal" />
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="#FFFFFF" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border.StrokeShape>
+                                <RoundRectangle CornerRadius="10,10,10,10"/>
+                            </Border.StrokeShape>
+
+                            <Grid  ColumnSpacing="10" HorizontalOptions="FillAndExpand">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="*" />
+                                </Grid.RowDefinitions>
+
+                                <StackLayout    Orientation="Vertical">
+                                    <Label Grid.Row="0" Text="{Binding Description}" MaxLines="2" FontAttributes="Italic" HorizontalOptions="FillAndExpand">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Descripción:" FontAttributes="Bold"></Span>
+                                                <Span Text=" "></Span>
+                                                <Span Text="{Binding Description}" FontAttributes="Italic"></Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Margin="0,5,0,0" Grid.Row="1" Text="{Binding DateOfActivity, StringFormat='{0:d}'}"   HorizontalOptions="FillAndExpand">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Fecha:" FontAttributes="Bold"></Span>
+                                                <Span Text=" "></Span>
+                                                <Span Text="{Binding DateOfActivity, StringFormat='{0:d}'}"></Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Margin="0,5,0,0" Grid.Row="2" Text="{Binding Rate}" HorizontalOptions="FillAndExpand" TextColor="blue" FontAttributes="Bold">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Calificación:" FontAttributes="Bold"></Span>
+                                                <Span Text=" "></Span>
+                                                <Span Text="{Binding Rate}"  TextColor="blue" FontAttributes="Bold"></Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Margin="0,5,0,0" Grid.Row="3" Text="{Binding Type.Description}" FontAttributes="Bold" TextColor="Orange"  HorizontalOptions="FillAndExpand">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Tipo:" FontAttributes="Bold"></Span>
+                                                <Span Text=" "></Span>
+                                                <Span Text="{Binding Type.Description}" TextColor="Orange" FontAttributes="Bold"></Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+
+                                    <Frame Grid.Row="4" HorizontalOptions="EndAndExpand" BorderColor="Transparent" Padding="5" VerticalOptions="EndAndExpand">
+                                        <Grid >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="Auto"/>
+                                                <ColumnDefinition Width="auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Button Grid.Column="0" Text="Editar" FontAttributes="Bold" HorizontalOptions="End"
+                                                    Command="{Binding BindingContext.EditEventCommand, Source={x:RelativeSource AncestorType={x:Type ContentPage}}}"
+                                                    CommandParameter="{Binding}"
+                                                    ></Button>
+                                            <Button Margin="10,0,0,0" Grid.Column="1" Text="Eliminar"  FontAttributes="Bold"  HorizontalOptions="End" BackgroundColor="LightCoral"
+                                                    Command="{Binding BindingContext.DeleteEventCommand, Source={x:RelativeSource AncestorType={x:Type ContentPage}}}"
+                                                    CommandParameter="{Binding}"
+                                                    ></Button>
+                                        </Grid>
+                                    </Frame>
+                                </StackLayout>
+
+                            </Grid>
+                        </Border>
+
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+        </ScrollView>
+
+        <StackLayout Margin="0,0,0,15" Grid.Row="2" Orientation="Horizontal" HorizontalOptions="FillAndExpand" BackgroundColor="WhiteSmoke" Padding="10">
+            <Button Text="Nueva Actividad" HorizontalOptions="FillAndExpand" Style="{DynamicResource GenericButton}" 
+                    Command="{Binding NewEventCommand}"
+                    ></Button>
+        </StackLayout>
+
+    </Grid>
+  </ContentPage>

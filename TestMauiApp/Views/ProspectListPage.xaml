@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TestMauiApp.Views.ProspectListPage"
+             xmlns:model="clr-namespace:TestMauiApp.Models"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:controls="clr-namespace:TestMauiApp.Views.Controls"
+             Title="ProspectListPage">
+    <ContentPage.Behaviors>
+        <toolkit:StatusBarBehavior x:Name="stausbars" StatusBarColor="{DynamicResource Primary}" StatusBarStyle="LightContent"/>
+    </ContentPage.Behaviors>
+    <Shell.TitleView>
+        <StackLayout HorizontalOptions="FillAndExpand"  Orientation="Horizontal" VerticalOptions="Fill">
+            <Label Text="Prospectos" TextColor="White" FontSize="20" FontAttributes="Bold" BackgroundColor="Transparent" HorizontalOptions="Center" VerticalOptions="Center" />
+
+        </StackLayout>
+
+    </Shell.TitleView>
+    <Grid Margin="10,0,10,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="AUTO"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label Margin="0,20,0,0" HorizontalOptions="CenterAndExpand" Grid.Row="0" Text="Listado" FontSize="20"
+             TextColor="{DynamicResource Primary}" FontAttributes="Bold" ></Label>
+        <Frame Margin="10,15,15,10" CornerRadius="20" HeightRequest="40" Grid.Row="1" >
+            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand">
+
+                <Image Margin="10,0,0,0" WidthRequest="20" HorizontalOptions="Start" Source="lupa"></Image>
+                <controls:MainEntry BackgroundColor="Transparent"
+                                            BorderColor="Transparent"
+                                            EntryBackgroundColor="Transparent"
+                                            TextColor="#646464"
+                                            FontSize="14"
+                                            Text="{Binding SearchText}"
+                                            Placeholder="Buscar"
+                                            PlaceholderColor="#b8b8b8"
+                                            HorizontalOptions="FillAndExpand">
+                    <controls:MainEntry.Margin>
+                        <OnPlatform x:TypeArguments="Thickness" Default="20">
+                            <On Platform="iOS" Value="10,0,0,0"/>
+                            <On Platform="Android" Value="10,10,20,0"/>
+                        </OnPlatform>
+                    </controls:MainEntry.Margin>
+                </controls:MainEntry>
+                <Image Margin="0,0,10,0" WidthRequest="10" HorizontalOptions="End" Source="close"
+                                                IsVisible="{Binding IsVisibleClear}">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding ClearCommand}" ></TapGestureRecognizer>
+                    </Image.GestureRecognizers>
+
+                </Image>
+
+            </StackLayout>
+            <Frame.Padding>
+                <OnPlatform x:TypeArguments="Thickness" Default="20">
+                    <On Platform="iOS" Value="5" />
+                    <On Platform="Android" Value="0" />
+                </OnPlatform>
+            </Frame.Padding>
+
+
+        </Frame>
+
+        <ScrollView Grid.Row="2" VerticalScrollBarVisibility="Never">
+
+            <CollectionView Margin="3,20,0,0" SelectionMode="Single" ItemsSource="{Binding Prospects}"
+                                 x:Name="ItemList" VerticalOptions="FillAndExpand" VerticalScrollBarVisibility="Never"
+                                SelectedItem="{Binding ProspectSelect}" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate x:DataType="model:Prospect">
+                        <StackLayout Margin="15,10,15,0">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup Name="CommonStates">
+                                    <VisualState Name="Normal" />
+                                    <VisualState Name="Selected">
+                                        <VisualState.Setters>
+                                            <Setter Property="BackgroundColor" Value="#FFFFFF" />
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border Padding="15" HorizontalOptions="FillAndExpand" >
+                                <Border.StrokeShape>
+                                    <RoundRectangle CornerRadius="10,10,10,10"/>
+                                </Border.StrokeShape>
+
+                                <Grid Margin="0,0,0,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="auto"/>
+                                        <RowDefinition Height="auto"/>
+                                    </Grid.RowDefinitions>
+                                    <Label Grid.Row="0" Text="{Binding FullName}" TextColor="#1d94ab" FontSize="Subtitle" HorizontalOptions="FillAndExpand"/>
+                                    <Label Grid.Row="1"  FontSize="Subtitle" TextColor="#1d94ab" HorizontalOptions="FillAndExpand">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="{Binding Phone}"></Span>
+                                                <Span Text=" - "></Span>
+                                                <Span Text="{Binding Email}"></Span>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                                <Border.GestureRecognizers>
+                                    <TapGestureRecognizer CommandParameter="{Binding .}"
+                                                           Command="{Binding BindingContext.ProspectEventSelectedCommand, Source={x:Reference ItemList}}"/>
+                                </Border.GestureRecognizers>
+                            </Border>
+
+
+
+                        </StackLayout>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+
+            </CollectionView>
+
+        </ScrollView>
+    </Grid>
+</ContentPage>

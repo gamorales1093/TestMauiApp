@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" ?>
+    <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:vm="clr-namespace:TestMauiApp.ViewModels"
+             xmlns:controls="clr-namespace:TestMauiApp.Views.Controls"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="TestMauiApp.Views.LoginPage"
+             Title="">
+        <ContentPage.BindingContext>
+            <vm:LoginViewModel/>
+        </ContentPage.BindingContext>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="250" />
+            </Grid.RowDefinitions>
+
+
+            <StackLayout Grid.Row="1" Orientation="Vertical" Spacing="10" HorizontalOptions="FillAndExpand">
+                <Image Source="crm.png" HorizontalOptions="Center" HeightRequest="150" WidthRequest="150"/>
+
+            <Label Text="CRM" TextColor="#7dd6fe" FontSize="20" HorizontalOptions="Center" FontAttributes="Bold"></Label>
+
+
+
+                <StackLayout Margin="0,25,0,0" Orientation="Vertical" Spacing="5" HorizontalOptions="FillAndExpand" Padding="30,0">
+                    <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                        <Image Margin="0,0,10,0" Source="user.png" HorizontalOptions="Start" HeightRequest="20" WidthRequest="20"/>
+                        <controls:MainEntry Style="{DynamicResource MainEntryStyle}" x:Name="Name"
+                                        Text="{Binding User}"
+                                        HorizontalOptions="FillAndExpand"
+                                        Placeholder="Usuario"
+                                        Keyboard="Plain">
+                        </controls:MainEntry>
+                    </StackLayout>
+
+                    <StackLayout Margin="0,5,0,0" HorizontalOptions="FillAndExpand" Orientation="Horizontal">
+                        <Image Margin="0,0,10,0" HorizontalOptions="Start"  Source="pass.png"  HeightRequest="20" WidthRequest="20"/>
+                        <controls:MainEntry Style="{DynamicResource MainEntryStyle}"
+                                        x:Name="Password"
+                                        Text="{Binding Password}"
+                                         HorizontalOptions="FillAndExpand"
+                                        Placeholder="Contraseña"
+                                        IsPassword="True"
+                                        Keyboard="Plain">
+                        </controls:MainEntry>
+                    </StackLayout>
+                </StackLayout>
+
+            </StackLayout>
+
+            <Button Margin="30,0,25,0" Text="Log in" Grid.Row="2"
+                        HeightRequest="50"
+                        VerticalOptions="Start"
+                        Style="{DynamicResource GenericButton}"
+                        Command="{Binding LoginCommand}"/>
+        </Grid>
+    </ContentPage>
